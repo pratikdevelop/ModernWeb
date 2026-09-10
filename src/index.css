@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 50%, #6A4C93 100%);
+  --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FF8A65 100%);
+  --accent-gold: #FFD700;
+  --accent-teal: #20B2AA;
+  --accent-green: #00D4AA;
+  --accent-pink: #FF6B9D;
+  --accent-orange: #FF8A65;
+  --deep-purple: #2D1B69;
+  --dark-navy: #1A1A2E;
+  --darker-navy: #16213E;
+  --darkest-navy: #0F0F1D;
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --shadow-glow: 0 0 35px rgba(255, 215, 0, 0.25);
+  --shadow-purple-glow: 0 0 40px rgba(142, 45, 226, 0.3);
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--dark-navy);
+  color: #FFFFFF;
+}
+
+h1, h2, h3, .font-kreon {
+  font-family: 'Kreon', Georgia, serif;
+}
+
+.font-mono-code {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Dynamic animated ambient background */
+.ambient-glow-bg {
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(142, 45, 226, 0.15) 0%, transparent 45%),
+    radial-gradient(circle at 85% 25%, rgba(32, 178, 170, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 50% 65%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 85%, rgba(74, 0, 224, 0.15) 0%, transparent 40%);
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(26, 26, 46, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 215, 0, 0.3);
+  box-shadow: 0 15px 35px rgba(74, 0, 224, 0.25);
+  transform: translateY(-4px);
+}
+
+/* Konami Rainbow Mode */
+.konami-rainbow {
+  animation: rainbowHue 4s linear infinite;
+}
+
+@keyframes rainbowHue {
+  0% { filter: hue-rotate(0deg) saturate(1.4); }
+  50% { filter: hue-rotate(180deg) saturate(1.6); }
+  100% { filter: hue-rotate(360deg) saturate(1.4); }
+}
+
+/* Subtle Shimmer for Pro badges and banners */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.5s infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

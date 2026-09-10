@@ -1,0 +1,7 @@
+{
+  "name": "ModernWeb - AI-Powered Platform",
+  "description": "ModernWeb enterprise content platform with AI Studio, interactive demos, AdSense monetization, and high-performance UI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

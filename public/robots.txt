@@ -1,0 +1,10 @@
+# Robots.txt for ModernWeb
+User-agent: *
+Allow: /
+
+# Google AdSense Crawler
+User-agent: Mediapartners-Google
+Allow: /
+
+# Sitemaps
+Sitemap: https://modernweb.ai/sitemap.xml
