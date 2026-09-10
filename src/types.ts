@@ -1,5 +1,14 @@
 export type AdNetwork = 'adsense' | 'carbon' | 'medianet' | 'affiliate';
 
+export type AdUnitPosition =
+  | 'sticky-top'
+  | 'hero-features'
+  | 'aistudio-after-tools'
+  | 'aistudio-sidebar'
+  | 'demo-stats'
+  | 'pre-contact'
+  | 'footer';
+
 export interface AdConfig {
   network: AdNetwork;
   clientId?: string;
@@ -56,4 +65,40 @@ export interface StatItem {
   suffix?: string;
   label: string;
   description: string;
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string[];
+  readTime: string;
+  author: {
+    name: string;
+    role: string;
+    avatar: string;
+  };
+  date: string;
+  category: string;
+  tags: string[];
+  keyTakeaways: string[];
+}
+
+export interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company: string;
+  avatar: string;
+  content: string;
+  rating: number;
+  verified: boolean;
 }

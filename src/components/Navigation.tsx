@@ -34,7 +34,8 @@ export const Navigation: React.FC<NavigationProps> = ({ onOpenPro, konamiActive 
     { label: 'Features', href: '#features' },
     { label: 'Demo', href: '#demo' },
     { label: 'AI Studio', href: '#ai-studio' },
-    { label: 'Stats', href: '#stats' },
+    { label: 'Blog', href: '#blog' },
+    { label: 'FAQ', href: '#faq' },
     { label: 'Contact', href: '#contact' },
   ];
 
@@ -58,7 +59,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onOpenPro, konamiActive 
       <header
         id="header"
         role="banner"
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
+        className={`sticky top-0 left-0 w-full z-40 transition-all duration-300 ${
           isScrolled
             ? 'bg-[#16213E]/95 backdrop-blur-xl py-3 border-b border-[#FFD700]/25 shadow-xl'
             : 'bg-[#1A1A2E]/80 backdrop-blur-md py-5 border-b border-white/10'

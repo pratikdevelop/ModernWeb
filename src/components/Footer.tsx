@@ -1,6 +1,6 @@
 import React from 'react';
 import { Sparkles, FileCode, Shield, Heart } from 'lucide-react';
-import { AdBanner } from './AdBanner';
+import { AdUnit } from './AdUnit';
 
 interface FooterProps {
   isConsentGranted: boolean;
@@ -12,8 +12,8 @@ export const Footer: React.FC<FooterProps> = ({ isConsentGranted, onOpenPro }) =
     <footer role="contentinfo" className="pt-12 pb-16 border-t border-white/10 bg-[#0F0F1D] text-gray-400 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Footer Ad Unit */}
-        <AdBanner
-          id="ad-banner-footer"
+        <AdUnit
+          id="ad-unit-footer"
           position="footer"
           isConsentGranted={isConsentGranted}
           onUpgradeClick={onOpenPro}

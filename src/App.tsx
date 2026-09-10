@@ -10,15 +10,20 @@ import { Features } from './components/Features';
 import { DemoSection } from './components/DemoSection';
 import { AIStudioSection } from './components/AIStudio/AIStudioSection';
 import { Stats } from './components/Stats';
+import { LeadMagnetSection } from './components/LeadMagnetSection';
+import { BlogSection } from './components/BlogSection';
+import { TestimonialsSection } from './components/TestimonialsSection';
+import { FAQSection } from './components/FAQSection';
 import { AffiliateSection } from './components/AffiliateSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
-import { AdBanner } from './components/AdBanner';
+import { AdUnit } from './components/AdUnit';
 import { ProModal } from './components/ProModal';
 import { ConsentBanner, getStoredConsent } from './components/ConsentBanner';
 import { AdSenseScriptLoader } from './components/AdSenseScriptLoader';
 import { ParticlesBackground } from './components/ParticlesBackground';
 import { KonamiEasterEgg } from './components/KonamiEasterEgg';
+import { StickyMobileBar } from './components/StickyMobileBar';
 import { ConsentSettings } from './types';
 import { initGoogleAnalytics, trackEvent } from './utils/analytics';
 
@@ -26,8 +31,9 @@ export default function App() {
   const [consent, setConsent] = useState<ConsentSettings | null>(() => getStoredConsent());
   const [isProModalOpen, setIsProModalOpen] = useState(false);
   const [proModalReason, setProModalReason] = useState<string | undefined>();
+  const [remainingUses, setRemainingUses] = useState(5);
   const [interactionCount, setInteractionCount] = useState(0);
-  const [hasTriggeredPaywall, setHasTriggeredPaywall] = useState(false);
+  const [hasTriggeredSoftPaywall, setHasTriggeredSoftPaywall] = useState(false);
   const [isRainbowMode, setIsRainbowMode] = useState(false);
 
   // Initialize analytics if consent granted
@@ -52,22 +58,24 @@ export default function App() {
     trackEvent('open_pro_modal', { reason: reason || 'manual_click' });
   }, []);
 
-  // Soft paywall handler: trigger after 2 interactions with AI demos
-  const handleDemoInteraction = useCallback(() => {
-    setInteractionCount((prev) => {
-      const nextCount = prev + 1;
-      if (nextCount >= 2 && !hasTriggeredPaywall) {
-        setHasTriggeredPaywall(true);
-        // Delay opening modal slightly so user sees their action result first
+  // Soft paywall: decreases remaining free actions and triggers modal after 4-5 interactions
+  const handleAIInteraction = useCallback(() => {
+    setInteractionCount((prevCount) => {
+      const nextCount = prevCount + 1;
+      setRemainingUses((prevRem) => Math.max(0, prevRem - 1));
+
+      // Trigger soft paywall after 4-5 interactions
+      if (nextCount >= 5 && !hasTriggeredSoftPaywall) {
+        setHasTriggeredSoftPaywall(true);
         setTimeout(() => {
           handleOpenProModal(
-            'You have reached 2 free AI Studio actions! Upgrade to Pro for unlimited generative workflows and ad-free experience.'
+            'You have reached the 5 free daily AI generations limit! Upgrade to Studio Pro for unlimited access, 4K exports, and a 100% ad-free experience.'
           );
-        }, 800);
+        }, 700);
       }
       return nextCount;
     });
-  }, [hasTriggeredPaywall, handleOpenProModal]);
+  }, [hasTriggeredSoftPaywall, handleOpenProModal]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -100,17 +108,17 @@ export default function App() {
       {/* AdSense Global Script Loader (respects user GDPR consent) */}
       <AdSenseScriptLoader isConsentGranted={isMarketingAllowed} />
 
-      {/* Sticky Header Sponsor Banner */}
-      <AdBanner
-        id="ad-banner-header-top"
-        position="header"
+      {/* AD POSITION 1: Sticky Top Banner (Desktop Only) */}
+      <AdUnit
+        id="ad-unit-sticky-top"
+        position="sticky-top"
         isConsentGranted={isMarketingAllowed}
         onUpgradeClick={() => handleOpenProModal('Go Ad-Free with Studio Pro')}
       />
 
-      {/* Main Accessible Header / Navigation */}
+      {/* Main Navigation (Sticky Header) */}
       <Navigation
-        onOpenPro={() => handleOpenProModal('Upgrade to Pro for full access')}
+        onOpenPro={() => handleOpenProModal('Upgrade to Pro for full ad-free access')}
         konamiActive={isRainbowMode}
       />
 
@@ -119,53 +127,80 @@ export default function App() {
         {/* Hero Section */}
         <Hero
           onExploreClick={() => scrollToSection('features')}
-          onTryDemoClick={() => scrollToSection('demo')}
+          onTryDemoClick={() => scrollToSection('ai-studio')}
         />
 
-        {/* Features Section */}
-        <Features />
-
-        {/* In-Article Responsive AdBanner between Features and Demo */}
+        {/* AD POSITION 2: Between Hero and Features */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <AdBanner
-            id="ad-banner-inarticle-features"
-            position="in-article"
+          <AdUnit
+            id="ad-unit-hero-features"
+            position="hero-features"
             isConsentGranted={isMarketingAllowed}
             onUpgradeClick={() => handleOpenProModal('Remove banner advertisements with Pro')}
           />
         </div>
 
-        {/* Interactive Demo Section (with Desktop Sidebar Ad) */}
+        {/* Features Section */}
+        <Features />
+
+        {/* Interactive Demo Section */}
         <DemoSection
-          onInteraction={handleDemoInteraction}
+          onInteraction={handleAIInteraction}
           onOpenPro={handleOpenProModal}
           isConsentGranted={isMarketingAllowed}
         />
 
-        {/* AI Studio Section (Placed between Demo and Stats) */}
+        {/* AI Studio Section (Contains AD POSITION 3 inside after tools & AD POSITION 5 on desktop right sidebar) */}
         <AIStudioSection
-          onInteraction={handleDemoInteraction}
+          onInteraction={handleAIInteraction}
           onOpenPro={handleOpenProModal}
+          isConsentGranted={isMarketingAllowed}
+          remainingUses={remainingUses}
         />
+
+        {/* AD POSITION 4: Between Demo and Stats */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AdUnit
+            id="ad-unit-demo-stats"
+            position="demo-stats"
+            isConsentGranted={isMarketingAllowed}
+            onUpgradeClick={() => handleOpenProModal('Remove banner advertisements with Pro')}
+          />
+        </div>
 
         {/* Statistics Section with Animated Counters */}
         <Stats />
 
-        {/* Affiliate-Ready Recommended Tools */}
+        {/* High-Converting Email Lead Magnet */}
+        <LeadMagnetSection />
+
+        {/* Comprehensive Blog Section (4 In-Depth Articles for SEO & AdSense Approval) */}
+        <BlogSection />
+
+        {/* Verified Customer Testimonials */}
+        <TestimonialsSection />
+
+        {/* Accordion FAQ Section */}
+        <FAQSection />
+
+        {/* Recommended Stack & Partner Tools */}
         <AffiliateSection />
 
-        {/* Contact Section (with Pre-Contact AdBanner inside) */}
+        {/* Contact Section (Contains AD POSITION 6: Above Contact Form) */}
         <ContactSection
           isConsentGranted={isMarketingAllowed}
-          onOpenPro={() => handleOpenProModal('Enjoy an ad-free experience')}
+          onOpenPro={() => handleOpenProModal('Enjoy an ad-free experience with Pro')}
         />
       </main>
 
-      {/* Footer (with Footer Ad Unit) */}
+      {/* Footer (Contains AD POSITION 7: Footer Banner) */}
       <Footer
         isConsentGranted={isMarketingAllowed}
         onOpenPro={() => handleOpenProModal('Upgrade to Pro')}
       />
+
+      {/* Sticky Mobile CTA Bar ("Try AI Studio Free →") */}
+      <StickyMobileBar onAction={() => scrollToSection('ai-studio')} />
 
       {/* Pro Upgrade / Soft Paywall Modal */}
       <ProModal

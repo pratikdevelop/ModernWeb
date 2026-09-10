@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Sparkles, Mail, User, MessageSquare } from 'lucide-react';
-import { AdBanner } from './AdBanner';
+import { AdUnit } from './AdUnit';
 
 interface ContactSectionProps {
   isConsentGranted: boolean;
@@ -88,8 +88,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({
     <section id="contact" className="py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Pre-Contact In-Article Ad Banner */}
-        <AdBanner
-          id="ad-banner-precontact"
+        <AdUnit
+          id="ad-unit-precontact"
           position="pre-contact"
           isConsentGranted={isConsentGranted}
           onUpgradeClick={onOpenPro}
